@@ -1,0 +1,9 @@
+USE DentalCare
+
+INSERT INTO Customers
+VALUES
+('Brienne', 'of Tarth', '740323-1348'),
+('Sandor', 'Clegane', '690602-2337'),
+('Arya', 'Stark', '891121-3153'),
+('Jon', 'Snow', '790817-3531'),
+('Daenerys', 'Targaryen', '820418-4762')

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using DataLagringLAB03_DentalCare.Views;
 
 namespace DataLagringLAB03_DentalCare
 {
     class Program
     {
+        static EFCTest Mainmenu = new EFCTest();
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Mainmenu.EntetyCoreTesting();
         }
     }
 }
