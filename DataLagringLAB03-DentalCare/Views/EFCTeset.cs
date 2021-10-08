@@ -18,34 +18,42 @@ namespace DataLagringLAB03_DentalCare.Views
             ////ListCustomers(); // Lists the guys
             ////Console.ReadKey(); 
             //DeleteCustomerBySocialSecurityNumber(JohnConnington.SocialSecurityNumber); // write a SSN to Delete
-            while(true)
+            while (true)
             {
-                Console.WriteLine("Choose Action:\n1. List Customers\n2. Add Customer" +
-                    "\n3. Update Customer\n4. Delete Customer ");
-           var choice = Console.ReadLine();
-                switch(choice)
+                ListCustomers();
+                Console.WriteLine("Choose Action:\n1.Add Customer" +
+                    "\n2. Update Customer\n3. Delete Customer\n4. Exit Application ");
+                var choice = Console.ReadLine();
+                switch (choice)
                 {
                     case "1":
-                        ListCustomers();
+                      var customer =  CreateCustomer();
+                        SaveCustomer(customer);
                         break;
                     case "2":
-                        SaveCustomer();
+                        var customer2 = CreateCustomer();
+                        UpdateCustomer(customer2); 
                         break;
                     case "3":
-                        UpdateCustomer();
+                        Console.WriteLine("Enter customer id:");
+                        var id = Console.ReadLine();
+                        if(int.TryParse(id, out int idInt))
+                        { 
+                        DeleteCustomerBySocialSecurityNumber(idInt);
+                        }
                         break;
                     case "4":
-                        DeleteCustomerBySocialSecurityNumber();
+                        Environment.Exit(0);
                         break;
-                    }
-                   ListCustomers();
-            Console.ReadKey();
+                }
+                Console.ReadKey();
             }
         }
 
 
         public void ListCustomers()
         {
+            Console.Clear();
             Console.WriteLine("Customers in Database:\n");
             using (var db = new DentalCareContext())// Connecting to Database
             {
@@ -58,12 +66,26 @@ namespace DataLagringLAB03_DentalCare.Views
             }
         }
 
+        public Customer CreateCustomer()
+        {
+            Customer customer = new Customer();
+            Console.WriteLine("Enter First Name:\n");
+            customer.FirstName = Console.ReadLine();
+            Console.WriteLine("Enter Last Name:\n");
+            customer.LastName = Console.ReadLine();
+            Console.WriteLine("Enter Social Security Number:\n");
+            customer.SocialSecurityNumber = Console.ReadLine();
+            return customer;
+        }
+
         public void SaveCustomer(Customer customer) // Send in a Customer
         {
             using (var db = new DentalCareContext()) // Conect
             {
                 db.Customers.Add(customer); // and add him to Customers Table in Database
                 db.SaveChanges();           // Gotta Save Bro!
+
+                Console.WriteLine("Customer added!");
             }
         }
 
@@ -71,7 +93,7 @@ namespace DataLagringLAB03_DentalCare.Views
         {
             using (var db = new DentalCareContext())
             {
-                var foundCustomer = db.Customers.FirstOrDefault(x => x.Id == customer.Id);
+                var foundCustomer = db.Customers.FirstOrDefault(x => x.FirstName == customer.FirstName);
                 // Serch trough database find guy or dont find guy
                 if (foundCustomer == null) // Dont find guy? Do nothing
                 {
@@ -85,11 +107,11 @@ namespace DataLagringLAB03_DentalCare.Views
             }
         }
 
-        public void DeleteCustomerBySocialSecurityNumber(string socialSecurityNumber)// this name tho....
+        public void DeleteCustomerBySocialSecurityNumber(int id)// this name tho....
         {
             using (var db = new DentalCareContext()) // Hello DataBase plz give stuff
             {
-                var foundCustomer = db.Customers.FirstOrDefault(x => x.SocialSecurityNumber == socialSecurityNumber);
+                var foundCustomer = db.Customers.FirstOrDefault(x => x.Id == id);
                 // Serch for guy, find guy kill guy if dont find guy, he dead already.
                 if (foundCustomer == null) return; // oneline if statment btw 
 

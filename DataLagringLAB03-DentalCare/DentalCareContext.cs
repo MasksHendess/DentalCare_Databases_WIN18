@@ -12,7 +12,7 @@ namespace DataLagringLAB03_DentalCare
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(local);Database=DENTALCARE;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=DentalCareDB;Trusted_Connection=True;");
             // connects to a local Server; called DENTALCARE ;using this computers user or whatever the last part was
         }
     }
